@@ -3,21 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merge-BIM</title>
+    <title>Merge-BIM - Projects</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app-container">
         <header>
             <h1>Merge-BIM</h1>
+            <p class="subtitle">ISO 19650 & IFC Schema Compliant AEC/BIM Modeling</p>
         </header>
+        
         <main>
-            <p>Welcome to Merge-BIM. Content will be added here.</p>
+            <div class="header-actions">
+                <h2>Projects</h2>
+                <button id="addProjectBtn" class="btn btn-primary">
+                    <span class="btn-icon">+</span> Add Project
+                </button>
+            </div>
+            
+            <div class="projects-grid" id="projectsContainer">
+                <!-- Projects will be dynamically inserted here -->
+                <div class="empty-state">
+                    <p>No projects yet. Click the "Add Project" button to create your first BIM project.</p>
+                </div>
+            </div>
         </main>
+        
         <footer>
-            <p>&copy; 2026 Merge-BIM</p>
+            <p>&copy; 2026 Merge-BIM | ISO 19650 & IFC Schema Compliant</p>
         </footer>
     </div>
+    
+    <!-- Add Project Modal -->
+    <div id="addProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Project</h3>
+                <span class="close-btn" id="closeModal">&times;</span>
+            </div>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projectName">Project Name *</label>
+                    <input type="text" id="projectName" required placeholder="e.g., Hospital Complex">
+                </div>
+                <div class="form-group">
+                    <label for="projectCode">Project Code</label>
+                    <input type="text" id="projectCode" placeholder="e.g., HC-2026">
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea id="projectDescription" rows="3" placeholder="Brief description of the project..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ifcVersion">IFC Version</label>
+                        <select id="ifcVersion">
+                            <option value="IFC4">IFC4</option>
+                            <option value="IFC4x3">IFC4x3</option>
+                            <option value="IFC2x3">IFC2x3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="isoStandard">ISO 19650 Part</label>
+                        <select id="isoStandard">
+                            <option value="ISO-19650-1">ISO 19650-1 (Concepts)</option>
+                            <option value="ISO-19650-2">ISO 19650-2 (Delivery Phase)</option>
+                            <option value="ISO-19650-3">ISO 19650-3 (Operational Phase)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <script src="app.js"></script>
 </body>
 </html>
