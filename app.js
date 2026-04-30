@@ -77,34 +77,51 @@ let viewScopePackageModal, closeViewScopeModal, viewScopeContent;
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded and parsed");
     
-    // Load all DOM elements safely (they may not exist on all pages)
-    loadDOMElements();
-    
-    // Load projects from storage
-    loadProjectsFromStorage();
-    console.log('Projects loaded from storage:', projects);
-    
-    // Determine which page we're on
-    if (projectNameEl) {
-        currentPage = 'project';
-        const urlParams = new URLSearchParams(window.location.search);
-        currentProjectId = urlParams.get('projectId');
-        if (currentProjectId) {
-            loadProject(currentProjectId);
-        } else {
-            console.error('No projectId in URL, redirecting to index');
-            // Only redirect once, don't create a loop
-            if (window.location.pathname.includes('project.html')) {
-                window.location.href = 'index.html';
-            }
-        }
-    } else {
-        currentPage = 'projects';
-        console.log('Rendering projects on index page');
-        renderProjects();
+    // Update status to show JS is loading
+    const jsStatus = document.getElementById('jsStatus');
+    if (jsStatus) {
+        jsStatus.textContent = 'JS Loading...';
+        jsStatus.style.background = 'yellow';
+        jsStatus.style.color = 'black';
     }
     
-    setupEventListeners();
+    // Wait a brief moment to ensure DOM is fully ready
+    setTimeout(() => {
+        // Load all DOM elements safely (they may not exist on all pages)
+        loadDOMElements();
+        
+        // Load projects from storage
+        loadProjectsFromStorage();
+        console.log('Projects loaded from storage:', projects);
+        
+        // Determine which page we're on
+        if (projectNameEl) {
+            currentPage = 'project';
+            const urlParams = new URLSearchParams(window.location.search);
+            currentProjectId = urlParams.get('projectId');
+            if (currentProjectId) {
+                loadProject(currentProjectId);
+            } else {
+                console.error('No projectId in URL, redirecting to index');
+                // Only redirect once, don't create a loop
+                if (window.location.pathname.includes('project.html')) {
+                    window.location.href = 'index.html';
+                }
+            }
+        } else {
+            currentPage = 'projects';
+            console.log('Rendering projects on index page');
+            renderProjects();
+        }
+        
+        setupEventListeners();
+        
+        // Update status to show JS is loaded
+        if (jsStatus) {
+            jsStatus.textContent = 'JS Loaded - ' + projects.length + ' projects';
+            jsStatus.style.background = 'green';
+        }
+    }, 100);
 });
 
 // Load DOM elements safely
