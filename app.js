@@ -328,35 +328,57 @@ function renderProjects() {
     }
 
     console.log('Rendering', projects.length, 'projects');
-    projectsContainer.innerHTML = projects.map(project => {
-        // Ensure scopePackages exists
-        if (!project.scopePackages) {
-            project.scopePackages = [];
-        }
-        return `
-        <div class="project-card" data-id="${project.id}">
-            <div class="project-header">
-                <div>
-                    <div class="project-name">${escapeHtml(project.name)}</div>
-                    <div class="project-code">${escapeHtml(project.code || 'N/A')}</div>
-                </div>
-                <div class="project-badges">
-                    <span class="badge badge-ifc">${escapeHtml(project.ifcVersion)}</span>
-                    <span class="badge badge-iso">${escapeHtml(project.isoStandard)}</span>
-                </div>
-            </div>
-            <div class="project-description">
-                ${escapeHtml(project.description || 'No description provided')}
-            </div>
-            <div class="project-meta">
-                <span>Created: ${formatDate(project.createdAt)}</span>
-                <div class="project-actions">
-                    <button class="btn btn-secondary" onclick="navigateToProject('${project.id}')">View</button>
-                    <button class="btn btn-secondary" onclick="editProject('${project.id}')">Edit</button>
-                </div>
-            </div>
-        </div>
-    `}).join('');
+    
+    // Test: Try setting a simple HTML first
+    try {
+        projectsContainer.innerHTML = '<div style="padding: 20px; background: #f0f0f0;">TEST: Rendering ' + projects.length + ' projects</div>';
+        console.log('Test HTML set successfully');
+        
+        // Wait a moment, then render actual projects
+        setTimeout(() => {
+            try {
+                const html = projects.map(project => {
+                    // Ensure scopePackages exists
+                    if (!project.scopePackages) {
+                        project.scopePackages = [];
+                    }
+                    return `
+                    <div class="project-card" data-id="${project.id}">
+                        <div class="project-header">
+                            <div>
+                                <div class="project-name">${escapeHtml(project.name)}</div>
+                                <div class="project-code">${escapeHtml(project.code || 'N/A')}</div>
+                            </div>
+                            <div class="project-badges">
+                                <span class="badge badge-ifc">${escapeHtml(project.ifcVersion)}</span>
+                                <span class="badge badge-iso">${escapeHtml(project.isoStandard)}</span>
+                            </div>
+                        </div>
+                        <div class="project-description">
+                            ${escapeHtml(project.description || 'No description provided')}
+                        </div>
+                        <div class="project-meta">
+                            <span>Created: ${formatDate(project.createdAt)}</span>
+                            <div class="project-actions">
+                                <button class="btn btn-secondary" onclick="navigateToProject('${project.id}')">View</button>
+                                <button class="btn btn-secondary" onclick="editProject('${project.id}')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+                
+                console.log('Generated HTML length:', html.length);
+                projectsContainer.innerHTML = html;
+                console.log('Projects rendered successfully');
+            } catch (e) {
+                console.error('Error generating project HTML:', e);
+                projectsContainer.innerHTML = '<div style="color: red; padding: 20px;">Error rendering projects: ' + e.message + '</div>';
+            }
+        }, 100);
+    } catch (e) {
+        console.error('Error setting test HTML:', e);
+        projectsContainer.innerHTML = '<div style="color: red; padding: 20px;">Error: ' + e.message + '</div>';
+    }
 }
 
 // Render scope packages for a project
