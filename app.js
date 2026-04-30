@@ -39,8 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentProjectId) {
             loadProject(currentProjectId);
         } else {
-            console.error('No projectId in URL');
-            window.location.href = 'index.html';
+            console.error('No projectId in URL, redirecting to index');
+            // Only redirect once, don't create a loop
+            if (window.location.pathname.includes('project.html')) {
+                window.location.href = 'index.html';
+            }
         }
     } else {
         currentPage = 'projects';
@@ -191,9 +194,6 @@ function navigateToProject(projectId) {
 
 // Load project details
 function loadProject(projectId) {
-    // Reload projects from localStorage to ensure we have latest data
-    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
-    
     const project = projects.find(p => p.id === projectId);
     if (project) {
         // Ensure scopePackages exists
@@ -214,16 +214,16 @@ function loadProject(projectId) {
         console.log('Project loaded:', project);
     } else {
         console.error('Project not found:', projectId);
-        alert('Project not found');
-        window.location.href = 'index.html';
+        alert('Project not found. You will be redirected to the projects page.');
+        // Only redirect if we're on project.html
+        if (window.location.pathname.includes('project.html')) {
+            window.location.href = 'index.html';
+        }
     }
 }
 
 // Render projects to the UI
 function renderProjects() {
-    // Reload projects from localStorage to ensure we have latest data
-    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
-    
     if (projects.length === 0) {
         projectsContainer.innerHTML = `
             <div class="empty-state">
@@ -266,9 +266,6 @@ function renderProjects() {
 
 // Render scope packages for a project
 function renderScopePackages(projectId) {
-    // Reload projects from localStorage to ensure we have latest data
-    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
-    
     const project = projects.find(p => p.id === projectId);
     if (!project || !project.scopePackages || project.scopePackages.length === 0) {
         scopePackagesContainer.innerHTML = `
@@ -372,9 +369,6 @@ function createScopePackage() {
         return;
     }
 
-    // Reload projects to ensure we have latest data
-    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
-    
     const newScopePackage = {
         id: generateId(),
         name,
@@ -414,9 +408,6 @@ function viewProject(projectId) {
 
 // View scope package details
 function viewScopePackage(projectId, scopePackageId) {
-    // Reload projects to ensure we have latest data
-    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
-    
     const project = projects.find(p => p.id === projectId);
     if (project) {
         const scopePackage = project.scopePackages.find(sp => sp.id === scopePackageId);
@@ -469,9 +460,6 @@ function viewScopePackage(projectId, scopePackageId) {
 
 // Edit project (placeholder for future implementation)
 function editProject(projectId) {
-    // Reload projects to ensure we have latest data
-    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
-    
     const project = projects.find(p => p.id === projectId);
     if (project) {
         console.log('Editing project:', project);
@@ -481,9 +469,6 @@ function editProject(projectId) {
 
 // Edit scope package (placeholder for future implementation)
 function editScopePackage(projectId, scopePackageId) {
-    // Reload projects to ensure we have latest data
-    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
-    
     const project = projects.find(p => p.id === projectId);
     if (project) {
         const scopePackage = project.scopePackages.find(sp => sp.id === scopePackageId);
@@ -497,7 +482,7 @@ function editScopePackage(projectId, scopePackageId) {
 // Save projects to localStorage
 function saveProjects() {
     localStorage.setItem('mergeBimProjects', JSON.stringify(projects));
-    console.log('Projects saved to localStorage:', projects);
+    console.log('Projects saved to localStorage. Total projects:', projects.length);
 }
 
 // Generate unique ID
