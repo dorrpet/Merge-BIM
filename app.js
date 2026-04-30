@@ -6,14 +6,36 @@ let currentPage = 'projects';
 let currentProjectId = null;
 
 // Project data store - load from localStorage once at startup
-let projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
+let projects = [];
 
-// Ensure all projects have scopePackages array
-projects.forEach(project => {
-    if (!project.scopePackages) {
-        project.scopePackages = [];
+// Load projects from localStorage
+function loadProjectsFromStorage() {
+    const stored = localStorage.getItem('mergeBimProjects');
+    console.log('Loading from localStorage:', stored ? stored.substring(0, 100) + '...' : 'null');
+    
+    if (stored) {
+        try {
+            projects = JSON.parse(stored);
+            console.log('Loaded projects:', projects.length);
+        } catch (e) {
+            console.error('Error parsing stored projects:', e);
+            projects = [];
+        }
+    } else {
+        console.log('No projects found in localStorage');
+        projects = [];
     }
-});
+    
+    // Ensure all projects have scopePackages array
+    projects.forEach(project => {
+        if (!project.scopePackages) {
+            project.scopePackages = [];
+        }
+    });
+}
+
+// Load projects at startup
+loadProjectsFromStorage();
 
 // DOM Elements - Projects Page
 let projectsContainer, addProjectBtn, addProjectModal, projectForm, closeModal, cancelModal;
@@ -481,8 +503,14 @@ function editScopePackage(projectId, scopePackageId) {
 
 // Save projects to localStorage
 function saveProjects() {
-    localStorage.setItem('mergeBimProjects', JSON.stringify(projects));
-    console.log('Projects saved to localStorage. Total projects:', projects.length);
+    try {
+        const jsonString = JSON.stringify(projects);
+        localStorage.setItem('mergeBimProjects', jsonString);
+        console.log('Projects saved to localStorage. Total projects:', projects.length);
+        console.log('Saved data length:', jsonString.length);
+    } catch (e) {
+        console.error('Error saving projects to localStorage:', e);
+    }
 }
 
 // Generate unique ID
