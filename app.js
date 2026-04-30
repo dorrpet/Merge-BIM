@@ -77,14 +77,6 @@ let viewScopePackageModal, closeViewScopeModal, viewScopeContent;
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded and parsed");
     
-    // Update status to show JS is loading
-    const jsStatus = document.getElementById('jsStatus');
-    if (jsStatus) {
-        jsStatus.textContent = 'JS Loading...';
-        jsStatus.style.background = 'yellow';
-        jsStatus.style.color = 'black';
-    }
-    
     // Wait a brief moment to ensure DOM is fully ready
     setTimeout(() => {
         // Load all DOM elements safely (they may not exist on all pages)
@@ -122,12 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         setupEventListeners();
-        
-        // Update status to show JS is loaded
-        if (jsStatus) {
-            jsStatus.textContent = 'JS Loaded - ' + projects.length + ' projects';
-            jsStatus.style.background = 'green';
-        }
     }, 100);
 });
 
@@ -336,55 +322,43 @@ function renderProjects() {
 
     console.log('Rendering', projects.length, 'projects');
     
-    // Test: Try setting a simple HTML first
     try {
-        projectsContainer.innerHTML = '<div style="padding: 20px; background: #f0f0f0;">TEST: Rendering ' + projects.length + ' projects</div>';
-        console.log('Test HTML set successfully');
-        
-        // Wait a moment, then render actual projects
-        setTimeout(() => {
-            try {
-                const html = projects.map(project => {
-                    // Ensure scopePackages exists
-                    if (!project.scopePackages) {
-                        project.scopePackages = [];
-                    }
-                    return `
-                    <div class="project-card" data-id="${project.id}">
-                        <div class="project-header">
-                            <div>
-                                <div class="project-name">${escapeHtml(project.name)}</div>
-                                <div class="project-code">${escapeHtml(project.code || 'N/A')}</div>
-                            </div>
-                            <div class="project-badges">
-                                <span class="badge badge-ifc">${escapeHtml(project.ifcVersion)}</span>
-                                <span class="badge badge-iso">${escapeHtml(project.isoStandard)}</span>
-                            </div>
-                        </div>
-                        <div class="project-description">
-                            ${escapeHtml(project.description || 'No description provided')}
-                        </div>
-                        <div class="project-meta">
-                            <span>Created: ${formatDate(project.createdAt)}</span>
-                            <div class="project-actions">
-                                <button class="btn btn-secondary" onclick="navigateToProject('${project.id}')">View</button>
-                                <button class="btn btn-secondary" onclick="editProject('${project.id}')">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-                `}).join('');
-                
-                console.log('Generated HTML length:', html.length);
-                projectsContainer.innerHTML = html;
-                console.log('Projects rendered successfully');
-            } catch (e) {
-                console.error('Error generating project HTML:', e);
-                projectsContainer.innerHTML = '<div style="color: red; padding: 20px;">Error rendering projects: ' + e.message + '</div>';
+        const html = projects.map(project => {
+            // Ensure scopePackages exists
+            if (!project.scopePackages) {
+                project.scopePackages = [];
             }
-        }, 100);
+            return `
+            <div class="project-card" data-id="${project.id}">
+                <div class="project-header">
+                    <div>
+                        <div class="project-name">${escapeHtml(project.name)}</div>
+                        <div class="project-code">${escapeHtml(project.code || 'N/A')}</div>
+                    </div>
+                    <div class="project-badges">
+                        <span class="badge badge-ifc">${escapeHtml(project.ifcVersion)}</span>
+                        <span class="badge badge-iso">${escapeHtml(project.isoStandard)}</span>
+                    </div>
+                </div>
+                <div class="project-description">
+                    ${escapeHtml(project.description || 'No description provided')}
+                </div>
+                <div class="project-meta">
+                    <span>Created: ${formatDate(project.createdAt)}</span>
+                    <div class="project-actions">
+                        <button class="btn btn-secondary" onclick="navigateToProject('${project.id}')">View</button>
+                        <button class="btn btn-secondary" onclick="editProject('${project.id}')">Edit</button>
+                    </div>
+                </div>
+            </div>
+        `}).join('');
+        
+        console.log('Generated HTML length:', html.length);
+        projectsContainer.innerHTML = html;
+        console.log('Projects rendered successfully');
     } catch (e) {
-        console.error('Error setting test HTML:', e);
-        projectsContainer.innerHTML = '<div style="color: red; padding: 20px;">Error: ' + e.message + '</div>';
+        console.error('Error generating project HTML:', e);
+        projectsContainer.innerHTML = '<div style="color: red; padding: 20px;">Error rendering projects: ' + e.message + '</div>';
     }
 }
 
