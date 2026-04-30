@@ -67,8 +67,8 @@ function saveProjects() {
 // DOM Elements - Projects Page
 let projectsContainer, addProjectBtn, addProjectModal, projectForm, closeModal, cancelModal;
 
-// DOM Elements - Project Page
-let backBtn, projectNameEl, projectCodeEl, projectIfcEl, projectIsoEl, projectDescriptionEl;
+// DOM Elements - Project Page (these should ONLY exist on project.html)
+let backBtn, projectHeaderNameEl, projectCodeEl, projectIfcEl, projectIsoEl, projectDescriptionEl;
 let editProjectBtn, scopePackagesContainer, addScopePackageBtn;
 let addScopePackageModal, scopePackageForm, closeScopeModal, cancelScopeModal;
 let viewScopePackageModal, closeViewScopeModal, viewScopeContent;
@@ -87,8 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Projects loaded from storage:', projects);
         
         // Determine which page we're on
-        const isProjectPage = projectNameEl !== null;
-        const isIndexPage = projectsContainer !== null;
+        // projectHeaderNameEl ONLY exists on project.html (the h2 element for displaying project name)
+        // On index.html, there's an input with id="projectName" but it's in a modal
+        const isProjectPage = projectHeaderNameEl !== null && backBtn !== null;
+        const isIndexPage = projectsContainer !== null && addProjectBtn !== null;
+        
+        console.log('Page detection - isProjectPage:', isProjectPage, 'isIndexPage:', isIndexPage);
         
         if (isProjectPage) {
             currentPage = 'project';
@@ -98,9 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadProject(currentProjectId);
             } else {
                 console.error('No projectId in URL on project page, redirecting to index');
-                // Prevent redirect loop - only redirect if we're not already going to index
-                if (window.location.pathname.includes('project.html') && 
-                    !window.location.pathname.includes('index.html')) {
+                // Prevent redirect loop - only redirect if we're on project.html
+                if (window.location.pathname.includes('project.html')) {
                     console.log('Redirecting to index.html');
                     window.location.href = 'index.html';
                 }
@@ -111,6 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
             renderProjects();
         } else {
             console.error('Unknown page type - neither project nor index page elements found');
+            console.log('projectHeaderNameEl:', projectHeaderNameEl);
+            console.log('backBtn:', backBtn);
+            console.log('projectsContainer:', projectsContainer);
+            console.log('addProjectBtn:', addProjectBtn);
         }
         
         setupEventListeners();
@@ -126,8 +133,9 @@ function loadDOMElements() {
     closeModal = document.getElementById('closeModal');
     cancelModal = document.getElementById('cancelModal');
 
+    // These elements ONLY exist on project.html, not on index.html
     backBtn = document.getElementById('backBtn');
-    projectNameEl = document.getElementById('projectName');
+    projectHeaderNameEl = document.getElementById('projectName');
     projectCodeEl = document.getElementById('projectCode');
     projectIfcEl = document.getElementById('projectIfc');
     projectIsoEl = document.getElementById('projectIso');
@@ -266,7 +274,7 @@ function loadProject(projectId) {
         }
         
         // Update project header
-        projectNameEl.textContent = project.name;
+        projectHeaderNameEl.textContent = project.name;
         projectCodeEl.textContent = project.code || 'N/A';
         projectIfcEl.textContent = project.ifcVersion;
         projectIsoEl.textContent = project.isoStandard;
