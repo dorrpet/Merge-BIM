@@ -5,46 +5,42 @@ console.log("Merge-BIM app initialized - ISO 19650 & IFC Schema Compliant");
 let currentPage = 'projects';
 let currentProjectId = null;
 
-// Project data store (in-memory for now, can be replaced with API calls)
+// Project data store - load from localStorage once at startup
 let projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
 
+// Ensure all projects have scopePackages array
+projects.forEach(project => {
+    if (!project.scopePackages) {
+        project.scopePackages = [];
+    }
+});
+
 // DOM Elements - Projects Page
-const projectsContainer = document.getElementById('projectsContainer');
-const addProjectBtn = document.getElementById('addProjectBtn');
-const addProjectModal = document.getElementById('addProjectModal');
-const projectForm = document.getElementById('projectForm');
-const closeModal = document.getElementById('closeModal');
-const cancelModal = document.getElementById('cancelModal');
+let projectsContainer, addProjectBtn, addProjectModal, projectForm, closeModal, cancelModal;
 
 // DOM Elements - Project Page
-const backBtn = document.getElementById('backBtn');
-const projectNameEl = document.getElementById('projectName');
-const projectCodeEl = document.getElementById('projectCode');
-const projectIfcEl = document.getElementById('projectIfc');
-const projectIsoEl = document.getElementById('projectIso');
-const projectDescriptionEl = document.getElementById('projectDescription');
-const editProjectBtn = document.getElementById('editProjectBtn');
-const scopePackagesContainer = document.getElementById('scopePackagesContainer');
-const addScopePackageBtn = document.getElementById('addScopePackageBtn');
-const addScopePackageModal = document.getElementById('addScopePackageModal');
-const scopePackageForm = document.getElementById('scopePackageForm');
-const closeScopeModal = document.getElementById('closeScopeModal');
-const cancelScopeModal = document.getElementById('cancelScopeModal');
-const viewScopePackageModal = document.getElementById('viewScopePackageModal');
-const closeViewScopeModal = document.getElementById('closeViewScopeModal');
-const viewScopeContent = document.getElementById('viewScopeContent');
+let backBtn, projectNameEl, projectCodeEl, projectIfcEl, projectIsoEl, projectDescriptionEl;
+let editProjectBtn, scopePackagesContainer, addScopePackageBtn;
+let addScopePackageModal, scopePackageForm, closeScopeModal, cancelScopeModal;
+let viewScopePackageModal, closeViewScopeModal, viewScopeContent;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded and parsed");
     
+    // Load all DOM elements safely (they may not exist on all pages)
+    loadDOMElements();
+    
     // Determine which page we're on
-    if (document.body.contains(projectNameEl)) {
+    if (projectNameEl) {
         currentPage = 'project';
         const urlParams = new URLSearchParams(window.location.search);
         currentProjectId = urlParams.get('projectId');
         if (currentProjectId) {
             loadProject(currentProjectId);
+        } else {
+            console.error('No projectId in URL');
+            window.location.href = 'index.html';
         }
     } else {
         currentPage = 'projects';
@@ -53,6 +49,33 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setupEventListeners();
 });
+
+// Load DOM elements safely
+function loadDOMElements() {
+    projectsContainer = document.getElementById('projectsContainer');
+    addProjectBtn = document.getElementById('addProjectBtn');
+    addProjectModal = document.getElementById('addProjectModal');
+    projectForm = document.getElementById('projectForm');
+    closeModal = document.getElementById('closeModal');
+    cancelModal = document.getElementById('cancelModal');
+
+    backBtn = document.getElementById('backBtn');
+    projectNameEl = document.getElementById('projectName');
+    projectCodeEl = document.getElementById('projectCode');
+    projectIfcEl = document.getElementById('projectIfc');
+    projectIsoEl = document.getElementById('projectIso');
+    projectDescriptionEl = document.getElementById('projectDescription');
+    editProjectBtn = document.getElementById('editProjectBtn');
+    scopePackagesContainer = document.getElementById('scopePackagesContainer');
+    addScopePackageBtn = document.getElementById('addScopePackageBtn');
+    addScopePackageModal = document.getElementById('addScopePackageModal');
+    scopePackageForm = document.getElementById('scopePackageForm');
+    closeScopeModal = document.getElementById('closeScopeModal');
+    cancelScopeModal = document.getElementById('cancelScopeModal');
+    viewScopePackageModal = document.getElementById('viewScopePackageModal');
+    closeViewScopeModal = document.getElementById('closeViewScopeModal');
+    viewScopeContent = document.getElementById('viewScopeContent');
+}
 
 // Setup event listeners
 function setupEventListeners() {
@@ -168,8 +191,16 @@ function navigateToProject(projectId) {
 
 // Load project details
 function loadProject(projectId) {
+    // Reload projects from localStorage to ensure we have latest data
+    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
+    
     const project = projects.find(p => p.id === projectId);
     if (project) {
+        // Ensure scopePackages exists
+        if (!project.scopePackages) {
+            project.scopePackages = [];
+        }
+        
         // Update project header
         projectNameEl.textContent = project.name;
         projectCodeEl.textContent = project.code || 'N/A';
@@ -190,6 +221,9 @@ function loadProject(projectId) {
 
 // Render projects to the UI
 function renderProjects() {
+    // Reload projects from localStorage to ensure we have latest data
+    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
+    
     if (projects.length === 0) {
         projectsContainer.innerHTML = `
             <div class="empty-state">
@@ -199,7 +233,12 @@ function renderProjects() {
         return;
     }
 
-    projectsContainer.innerHTML = projects.map(project => `
+    projectsContainer.innerHTML = projects.map(project => {
+        // Ensure scopePackages exists
+        if (!project.scopePackages) {
+            project.scopePackages = [];
+        }
+        return `
         <div class="project-card" data-id="${project.id}">
             <div class="project-header">
                 <div>
@@ -222,11 +261,14 @@ function renderProjects() {
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
 // Render scope packages for a project
 function renderScopePackages(projectId) {
+    // Reload projects from localStorage to ensure we have latest data
+    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
+    
     const project = projects.find(p => p.id === projectId);
     if (!project || !project.scopePackages || project.scopePackages.length === 0) {
         scopePackagesContainer.innerHTML = `
@@ -330,6 +372,9 @@ function createScopePackage() {
         return;
     }
 
+    // Reload projects to ensure we have latest data
+    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
+    
     const newScopePackage = {
         id: generateId(),
         name,
@@ -369,6 +414,9 @@ function viewProject(projectId) {
 
 // View scope package details
 function viewScopePackage(projectId, scopePackageId) {
+    // Reload projects to ensure we have latest data
+    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
+    
     const project = projects.find(p => p.id === projectId);
     if (project) {
         const scopePackage = project.scopePackages.find(sp => sp.id === scopePackageId);
@@ -421,6 +469,9 @@ function viewScopePackage(projectId, scopePackageId) {
 
 // Edit project (placeholder for future implementation)
 function editProject(projectId) {
+    // Reload projects to ensure we have latest data
+    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
+    
     const project = projects.find(p => p.id === projectId);
     if (project) {
         console.log('Editing project:', project);
@@ -430,6 +481,9 @@ function editProject(projectId) {
 
 // Edit scope package (placeholder for future implementation)
 function editScopePackage(projectId, scopePackageId) {
+    // Reload projects to ensure we have latest data
+    projects = JSON.parse(localStorage.getItem('mergeBimProjects')) || [];
+    
     const project = projects.find(p => p.id === projectId);
     if (project) {
         const scopePackage = project.scopePackages.find(sp => sp.id === scopePackageId);
@@ -443,6 +497,7 @@ function editScopePackage(projectId, scopePackageId) {
 // Save projects to localStorage
 function saveProjects() {
     localStorage.setItem('mergeBimProjects', JSON.stringify(projects));
+    console.log('Projects saved to localStorage:', projects);
 }
 
 // Generate unique ID
