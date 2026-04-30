@@ -163,6 +163,97 @@
         </div>
     </div>
     
+    <!-- Edit Scope Package Modal -->
+    <div id="editScopePackageModal" class="modal">
+        <div class="modal-content modal-wide">
+            <div class="modal-header">
+                <h3>Edit Scope Package</h3>
+                <span class="close-btn" id="closeEditScopeModal">&times;</span>
+            </div>
+            <form id="editScopePackageForm">
+                <input type="hidden" id="editScopePackageId">
+                <input type="hidden" id="editScopePackageProjectId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editScopeName">Package Name *</label>
+                        <input type="text" id="editScopeName" required placeholder="e.g., Architectural Design">
+                    </div>
+                    <div class="form-group">
+                        <label for="editScopeCode">Package Code *</label>
+                        <input type="text" id="editScopeCode" required placeholder="e.g., ARC-001">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editScopeDescription">Description</label>
+                    <textarea id="editScopeDescription" rows="3" placeholder="Detailed description of this scope package..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editScopeType">Package Type</label>
+                        <select id="editScopeType">
+                            <option value="Design">Design</option>
+                            <option value="Construction">Construction</option>
+                            <option value="As-Built">As-Built</option>
+                            <option value="Operation">Operation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editScopeStatus">Status</label>
+                        <select id="editScopeStatus">
+                            <option value="Draft">Draft</option>
+                            <option value="For Review">For Review</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Published">Published</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>IFC Entities (Select applicable)</label>
+                    <div class="checkbox-group" id="editIfcEntitiesContainer">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcWall"> IfcWall
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcSlab"> IfcSlab
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcColumn"> IfcColumn
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcBeam"> IfcBeam
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcDoor"> IfcDoor
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcWindow"> IfcWindow
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcRoof"> IfcRoof
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcStair"> IfcStair
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcSpace"> IfcSpace
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="editIfcEntity" value="IfcBuilding"> IfcBuilding
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editScopeRequirements">Information Requirements</label>
+                    <textarea id="editScopeRequirements" rows="4" placeholder="Specify information requirements according to ISO 19650..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelEditScopeModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <script src="app.js"></script>
 </body>
 </html>

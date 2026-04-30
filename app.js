@@ -66,10 +66,12 @@ function saveProjects() {
 
 // DOM Elements - Projects Page
 let projectsContainer, addProjectBtn, addProjectModal, projectForm, closeModal, cancelModal;
+let editProjectModal, editProjectForm, closeEditModal, cancelEditModal;
 
 // DOM Elements - Project Page (these should ONLY exist on project.html)
 let backBtn, projectHeaderNameEl, projectCodeEl, projectIfcEl, projectIsoEl, projectDescriptionEl;
 let editProjectBtn, scopePackagesContainer, addScopePackageBtn;
+let editScopePackageModal, editScopePackageForm, closeEditScopeModal, cancelEditScopeModal;
 let addScopePackageModal, scopePackageForm, closeScopeModal, cancelScopeModal;
 let viewScopePackageModal, closeViewScopeModal, viewScopeContent;
 
@@ -132,6 +134,10 @@ function loadDOMElements() {
     projectForm = document.getElementById('projectForm');
     closeModal = document.getElementById('closeModal');
     cancelModal = document.getElementById('cancelModal');
+    editProjectModal = document.getElementById('editProjectModal');
+    editProjectForm = document.getElementById('editProjectForm');
+    closeEditModal = document.getElementById('closeEditModal');
+    cancelEditModal = document.getElementById('cancelEditModal');
 
     // These elements ONLY exist on project.html, not on index.html
     backBtn = document.getElementById('backBtn');
@@ -143,6 +149,10 @@ function loadDOMElements() {
     editProjectBtn = document.getElementById('editProjectBtn');
     scopePackagesContainer = document.getElementById('scopePackagesContainer');
     addScopePackageBtn = document.getElementById('addScopePackageBtn');
+    editScopePackageModal = document.getElementById('editScopePackageModal');
+    editScopePackageForm = document.getElementById('editScopePackageForm');
+    closeEditScopeModal = document.getElementById('closeEditScopeModal');
+    cancelEditScopeModal = document.getElementById('cancelEditScopeModal');
     addScopePackageModal = document.getElementById('addScopePackageModal');
     scopePackageForm = document.getElementById('scopePackageForm');
     closeScopeModal = document.getElementById('closeScopeModal');
@@ -172,6 +182,30 @@ function setupEventListeners() {
         cancelModal.addEventListener('click', () => {
             addProjectModal.classList.remove('active');
             resetForm();
+        });
+    }
+
+    // Edit project modal listeners
+    if (closeEditModal) {
+        closeEditModal.addEventListener('click', () => {
+            editProjectModal.classList.remove('active');
+            resetEditProjectForm();
+        });
+    }
+
+    if (cancelEditModal) {
+        cancelEditModal.addEventListener('click', () => {
+            editProjectModal.classList.remove('active');
+            resetEditProjectForm();
+        });
+    }
+
+    if (editProjectModal) {
+        editProjectModal.addEventListener('click', (e) => {
+            if (e.target === editProjectModal) {
+                editProjectModal.classList.remove('active');
+                resetEditProjectForm();
+            }
         });
     }
 
@@ -255,6 +289,45 @@ function setupEventListeners() {
         scopePackageForm.addEventListener('submit', (e) => {
             e.preventDefault();
             createScopePackage();
+        });
+    }
+
+    // Edit project form submission
+    if (editProjectForm) {
+        editProjectForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            saveEditProject();
+        });
+    }
+
+    // Edit scope package modal listeners
+    if (closeEditScopeModal) {
+        closeEditScopeModal.addEventListener('click', () => {
+            editScopePackageModal.classList.remove('active');
+            resetEditScopePackageForm();
+        });
+    }
+
+    if (cancelEditScopeModal) {
+        cancelEditScopeModal.addEventListener('click', () => {
+            editScopePackageModal.classList.remove('active');
+            resetEditScopePackageForm();
+        });
+    }
+
+    if (editScopePackageModal) {
+        editScopePackageModal.addEventListener('click', (e) => {
+            if (e.target === editScopePackageModal) {
+                editScopePackageModal.classList.remove('active');
+                resetEditScopePackageForm();
+            }
+        });
+    }
+
+    if (editScopePackageForm) {
+        editScopePackageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            saveEditScopePackage();
         });
     }
 }
@@ -564,25 +637,164 @@ function viewScopePackage(projectId, scopePackageId) {
     }
 }
 
-// Edit project (placeholder for future implementation)
+// Global variable to track which project is being edited
+let editingProjectId = null;
+
+// Edit project - open edit modal with project data
 function editProject(projectId) {
     const project = projects.find(p => p.id === projectId);
     if (project) {
+        editingProjectId = projectId;
+        
+        // Populate the edit form with project data
+        document.getElementById('editProjectId').value = project.id;
+        document.getElementById('editProjectName').value = project.name || '';
+        document.getElementById('editProjectCode').value = project.code || '';
+        document.getElementById('editProjectDescription').value = project.description || '';
+        document.getElementById('editIfcVersion').value = project.ifcVersion || 'IFC4';
+        document.getElementById('editIsoStandard').value = project.isoStandard || 'ISO-19650-2';
+        
+        // Show the edit modal
+        editProjectModal.classList.add('active');
         console.log('Editing project:', project);
-        alert(`Editing project: ${project.name}`);
     }
 }
 
-// Edit scope package (placeholder for future implementation)
+// Save edited project
+function saveEditProject() {
+    const projectId = document.getElementById('editProjectId').value;
+    const name = document.getElementById('editProjectName').value.trim();
+    const code = document.getElementById('editProjectCode').value.trim();
+    const description = document.getElementById('editProjectDescription').value.trim();
+    const ifcVersion = document.getElementById('editIfcVersion').value;
+    const isoStandard = document.getElementById('editIsoStandard').value;
+
+    if (!name) {
+        alert('Project name is required');
+        return;
+    }
+
+    const project = projects.find(p => p.id === projectId);
+    if (project) {
+        project.name = name;
+        project.code = code;
+        project.description = description;
+        project.ifcVersion = ifcVersion;
+        project.isoStandard = isoStandard;
+        project.updatedAt = new Date().toISOString();
+        
+        saveProjects();
+        renderProjects();
+        
+        // Close modal and reset form
+        editProjectModal.classList.remove('active');
+        resetEditProjectForm();
+        
+        console.log('Project updated:', project);
+    }
+}
+
+// Reset edit project form
+function resetEditProjectForm() {
+    if (editProjectForm) editProjectForm.reset();
+    editingProjectId = null;
+}
+
+// Global variables to track which scope package is being edited
+let editingScopePackageId = null;
+let editingScopePackageProjectId = null;
+
+// Edit scope package - open edit modal with scope package data
 function editScopePackage(projectId, scopePackageId) {
     const project = projects.find(p => p.id === projectId);
     if (project) {
         const scopePackage = project.scopePackages.find(sp => sp.id === scopePackageId);
         if (scopePackage) {
+            editingScopePackageId = scopePackageId;
+            editingScopePackageProjectId = projectId;
+            
+            // Populate the edit form with scope package data
+            document.getElementById('editScopePackageId').value = scopePackage.id;
+            document.getElementById('editScopePackageProjectId').value = projectId;
+            document.getElementById('editScopeName').value = scopePackage.name || '';
+            document.getElementById('editScopeCode').value = scopePackage.code || '';
+            document.getElementById('editScopeDescription').value = scopePackage.description || '';
+            document.getElementById('editScopeType').value = scopePackage.type || 'Design';
+            document.getElementById('editScopeStatus').value = scopePackage.status || 'Draft';
+            document.getElementById('editScopeRequirements').value = scopePackage.requirements || '';
+            
+            // Set IFC entities checkboxes
+            const checkboxes = document.querySelectorAll('input[name="editIfcEntity"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = scopePackage.ifcEntities && scopePackage.ifcEntities.includes(checkbox.value);
+            });
+            
+            // Show the edit modal
+            editScopePackageModal.classList.add('active');
             console.log('Editing scope package:', scopePackage);
-            alert(`Editing scope package: ${scopePackage.name}`);
         }
     }
+}
+
+// Save edited scope package
+function saveEditScopePackage() {
+    const scopePackageId = document.getElementById('editScopePackageId').value;
+    const projectId = document.getElementById('editScopePackageProjectId').value;
+    const name = document.getElementById('editScopeName').value.trim();
+    const code = document.getElementById('editScopeCode').value.trim();
+    const description = document.getElementById('editScopeDescription').value.trim();
+    const type = document.getElementById('editScopeType').value;
+    const status = document.getElementById('editScopeStatus').value;
+    const requirements = document.getElementById('editScopeRequirements').value.trim();
+
+    // Get selected IFC entities
+    const ifcEntities = [];
+    const checkboxes = document.querySelectorAll('input[name="editIfcEntity"]:checked');
+    checkboxes.forEach(checkbox => {
+        ifcEntities.push(checkbox.value);
+    });
+
+    if (!name || !code) {
+        alert('Package name and code are required');
+        return;
+    }
+
+    const project = projects.find(p => p.id === projectId);
+    if (project) {
+        const scopePackage = project.scopePackages.find(sp => sp.id === scopePackageId);
+        if (scopePackage) {
+            scopePackage.name = name;
+            scopePackage.code = code;
+            scopePackage.description = description;
+            scopePackage.type = type;
+            scopePackage.status = status;
+            scopePackage.ifcEntities = ifcEntities;
+            scopePackage.requirements = requirements;
+            scopePackage.updatedAt = new Date().toISOString();
+            
+            project.updatedAt = new Date().toISOString();
+            saveProjects();
+            renderScopePackages(projectId);
+            
+            // Close modal and reset form
+            editScopePackageModal.classList.remove('active');
+            resetEditScopePackageForm();
+            
+            console.log('Scope package updated:', scopePackage);
+        }
+    }
+}
+
+// Reset edit scope package form
+function resetEditScopePackageForm() {
+    if (editScopePackageForm) editScopePackageForm.reset();
+    // Uncheck all IFC entity checkboxes
+    const checkboxes = document.querySelectorAll('input[name="editIfcEntity"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    editingScopePackageId = null;
+    editingScopePackageProjectId = null;
 }
 
 // Generate unique ID

@@ -80,6 +80,53 @@
         </div>
     </div>
     
+    <!-- Edit Project Modal -->
+    <div id="editProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Project</h3>
+                <span class="close-btn" id="closeEditModal">&times;</span>
+            </div>
+            <form id="editProjectForm">
+                <input type="hidden" id="editProjectId">
+                <div class="form-group">
+                    <label for="editProjectName">Project Name *</label>
+                    <input type="text" id="editProjectName" required placeholder="e.g., Hospital Complex">
+                </div>
+                <div class="form-group">
+                    <label for="editProjectCode">Project Code</label>
+                    <input type="text" id="editProjectCode" placeholder="e.g., HC-2026">
+                </div>
+                <div class="form-group">
+                    <label for="editProjectDescription">Description</label>
+                    <textarea id="editProjectDescription" rows="3" placeholder="Brief description of the project..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editIfcVersion">IFC Version</label>
+                        <select id="editIfcVersion">
+                            <option value="IFC4">IFC4</option>
+                            <option value="IFC4x3">IFC4x3</option>
+                            <option value="IFC2x3">IFC2x3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editIsoStandard">ISO 19650 Part</label>
+                        <select id="editIsoStandard">
+                            <option value="ISO-19650-1">ISO 19650-1 (Concepts)</option>
+                            <option value="ISO-19650-2">ISO 19650-2 (Delivery Phase)</option>
+                            <option value="ISO-19650-3">ISO 19650-3 (Operational Phase)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelEditModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <script src="app.js"></script>
 </body>
 </html>
