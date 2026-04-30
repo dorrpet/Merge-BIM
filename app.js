@@ -5,13 +5,13 @@ console.log("Merge-BIM app initialized - ISO 19650 & IFC Schema Compliant");
 let currentPage = 'projects';
 let currentProjectId = null;
 
-// Project data store - load from localStorage once at startup
+// Project data store - load from sessionStorage once at startup
 let projects = [];
 
-// Load projects from localStorage
+// Load projects from sessionStorage
 function loadProjectsFromStorage() {
-    const stored = localStorage.getItem('mergeBimProjects');
-    console.log('Loading from localStorage:', stored ? stored.substring(0, 100) + '...' : 'null');
+    const stored = sessionStorage.getItem('mergeBimProjects');
+    console.log('Loading from sessionStorage:', stored ? stored.substring(0, 100) + '...' : 'null');
     
     if (stored) {
         try {
@@ -22,7 +22,7 @@ function loadProjectsFromStorage() {
             projects = [];
         }
     } else {
-        console.log('No projects found in localStorage');
+        console.log('No projects found in sessionStorage');
         projects = [];
     }
     
@@ -501,15 +501,15 @@ function editScopePackage(projectId, scopePackageId) {
     }
 }
 
-// Save projects to localStorage
+// Save projects to sessionStorage
 function saveProjects() {
     try {
         const jsonString = JSON.stringify(projects);
-        localStorage.setItem('mergeBimProjects', jsonString);
-        console.log('Projects saved to localStorage. Total projects:', projects.length);
+        sessionStorage.setItem('mergeBimProjects', jsonString);
+        console.log('Projects saved to sessionStorage. Total projects:', projects.length);
         console.log('Saved data length:', jsonString.length);
     } catch (e) {
-        console.error('Error saving projects to localStorage:', e);
+        console.error('Error saving projects to sessionStorage:', e);
     }
 }
 
