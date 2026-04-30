@@ -295,11 +295,25 @@ function loadProject(projectId) {
 
 // Render projects to the UI
 function renderProjects() {
-    console.log('renderProjects called, projectsContainer:', projectsContainer);
+    console.log('renderProjects called');
+    console.log('projectsContainer exists:', !!projectsContainer);
     console.log('Projects to render:', projects.length);
     
+    // Re-get the container element in case it wasn't loaded earlier
     if (!projectsContainer) {
-        console.error('projectsContainer is null! Cannot render projects.');
+        projectsContainer = document.getElementById('projectsContainer');
+        console.log('Re-fetched projectsContainer:', projectsContainer);
+    }
+    
+    if (!projectsContainer) {
+        console.error('projectsContainer is still null! Cannot render projects.');
+        // Try one more time after a brief delay
+        setTimeout(() => {
+            projectsContainer = document.getElementById('projectsContainer');
+            if (projectsContainer) {
+                renderProjects();
+            }
+        }, 50);
         return;
     }
     
@@ -309,9 +323,11 @@ function renderProjects() {
                 <p>No projects yet. Click the "Add Project" button to create your first BIM project.</p>
             </div>
         `;
+        console.log('Rendered empty state');
         return;
     }
 
+    console.log('Rendering', projects.length, 'projects');
     projectsContainer.innerHTML = projects.map(project => {
         // Ensure scopePackages exists
         if (!project.scopePackages) {
