@@ -5,24 +5,41 @@ console.log("Merge-BIM app initialized - ISO 19650 & IFC Schema Compliant");
 let currentPage = 'projects';
 let currentProjectId = null;
 
-// Project data store - load from sessionStorage once at startup
+// Project data store
 let projects = [];
 
-// Load projects from sessionStorage
+// Storage key
+const STORAGE_KEY = 'mergeBimProjects';
+
+// Load projects from storage (try sessionStorage first, then localStorage)
 function loadProjectsFromStorage() {
-    const stored = sessionStorage.getItem('mergeBimProjects');
-    console.log('Loading from sessionStorage:', stored ? stored.substring(0, 100) + '...' : 'null');
+    let stored = null;
+    
+    // Try sessionStorage first
+    stored = sessionStorage.getItem(STORAGE_KEY);
+    console.log('sessionStorage:', stored ? 'has data' : 'empty');
+    
+    // If sessionStorage is empty, try localStorage
+    if (!stored) {
+        stored = localStorage.getItem(STORAGE_KEY);
+        console.log('localStorage:', stored ? 'has data' : 'empty');
+    }
     
     if (stored) {
         try {
             projects = JSON.parse(stored);
             console.log('Loaded projects:', projects.length);
+            
+            // Save to both storages for redundancy
+            sessionStorage.setItem(STORAGE_KEY, stored);
+            localStorage.setItem(STORAGE_KEY, stored);
+            
         } catch (e) {
             console.error('Error parsing stored projects:', e);
             projects = [];
         }
     } else {
-        console.log('No projects found in sessionStorage');
+        console.log('No projects found in storage');
         projects = [];
     }
     
@@ -34,8 +51,17 @@ function loadProjectsFromStorage() {
     });
 }
 
-// Load projects at startup
-loadProjectsFromStorage();
+// Save projects to both storages
+function saveProjects() {
+    try {
+        const jsonString = JSON.stringify(projects);
+        sessionStorage.setItem(STORAGE_KEY, jsonString);
+        localStorage.setItem(STORAGE_KEY, jsonString);
+        console.log('Projects saved to storage. Total projects:', projects.length);
+    } catch (e) {
+        console.error('Error saving projects to storage:', e);
+    }
+}
 
 // DOM Elements - Projects Page
 let projectsContainer, addProjectBtn, addProjectModal, projectForm, closeModal, cancelModal;
@@ -52,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Load all DOM elements safely (they may not exist on all pages)
     loadDOMElements();
+    
+    // Load projects from storage
+    loadProjectsFromStorage();
     
     // Determine which page we're on
     if (projectNameEl) {
@@ -498,18 +527,6 @@ function editScopePackage(projectId, scopePackageId) {
             console.log('Editing scope package:', scopePackage);
             alert(`Editing scope package: ${scopePackage.name}`);
         }
-    }
-}
-
-// Save projects to sessionStorage
-function saveProjects() {
-    try {
-        const jsonString = JSON.stringify(projects);
-        sessionStorage.setItem('mergeBimProjects', jsonString);
-        console.log('Projects saved to sessionStorage. Total projects:', projects.length);
-        console.log('Saved data length:', jsonString.length);
-    } catch (e) {
-        console.error('Error saving projects to sessionStorage:', e);
     }
 }
 
