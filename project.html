@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge-BIM - Project</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-nav">
+                <button class="btn btn-secondary" id="backBtn">
+                    <span class="btn-icon">←</span> Back to Projects
+                </button>
+            </div>
+            <h1 id="projectTitle">Project</h1>
+            <p class="subtitle" id="projectSubtitle">ISO 19650 & IFC Schema Compliant</p>
+        </header>
+        
+        <main>
+            <div class="project-header-details">
+                <div class="project-info">
+                    <div class="project-main-info">
+                        <h2 id="projectName">Loading...</h2>
+                        <div class="project-meta-row">
+                            <span class="project-code" id="projectCode"></span>
+                            <div class="project-badges">
+                                <span class="badge badge-ifc" id="projectIfc"></span>
+                                <span class="badge badge-iso" id="projectIso"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="project-description" id="projectDescription"></p>
+                </div>
+                <div class="project-actions-header">
+                    <button class="btn btn-secondary" id="editProjectBtn">Edit Project</button>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <h3>Scope Packages</h3>
+                    <button id="addScopePackageBtn" class="btn btn-primary">
+                        <span class="btn-icon">+</span> Add Scope Package
+                    </button>
+                </div>
+                <p class="section-description">
+                    Scope Packages define the information requirements and deliverables for this project according to ISO 19650-2.
+                </p>
+                <div class="scope-packages-grid" id="scopePackagesContainer">
+                    <div class="empty-state">
+                        <p>No scope packages yet. Click the "Add Scope Package" button to create your first package.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2026 Merge-BIM | ISO 19650 & IFC Schema Compliant</p>
+        </footer>
+    </div>
+    
+    <!-- Add Scope Package Modal -->
+    <div id="addScopePackageModal" class="modal">
+        <div class="modal-content modal-wide">
+            <div class="modal-header">
+                <h3>Create Scope Package</h3>
+                <span class="close-btn" id="closeScopeModal">&times;</span>
+            </div>
+            <form id="scopePackageForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="scopeName">Package Name *</label>
+                        <input type="text" id="scopeName" required placeholder="e.g., Architectural Design">
+                    </div>
+                    <div class="form-group">
+                        <label for="scopeCode">Package Code *</label>
+                        <input type="text" id="scopeCode" required placeholder="e.g., ARC-001">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="scopeDescription">Description</label>
+                    <textarea id="scopeDescription" rows="3" placeholder="Detailed description of this scope package..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="scopeType">Package Type</label>
+                        <select id="scopeType">
+                            <option value="Design">Design</option>
+                            <option value="Construction">Construction</option>
+                            <option value="As-Built">As-Built</option>
+                            <option value="Operation">Operation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="scopeStatus">Status</label>
+                        <select id="scopeStatus">
+                            <option value="Draft">Draft</option>
+                            <option value="For Review">For Review</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Published">Published</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>IFC Entities (Select applicable)</label>
+                    <div class="checkbox-group" id="ifcEntitiesContainer">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcWall"> IfcWall
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcSlab"> IfcSlab
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcColumn"> IfcColumn
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcBeam"> IfcBeam
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcDoor"> IfcDoor
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcWindow"> IfcWindow
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcRoof"> IfcRoof
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcStair"> IfcStair
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcSpace"> IfcSpace
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="ifcEntity" value="IfcBuilding"> IfcBuilding
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="scopeRequirements">Information Requirements</label>
+                    <textarea id="scopeRequirements" rows="4" placeholder="Specify information requirements according to ISO 19650..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelScopeModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Scope Package</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- View Scope Package Modal -->
+    <div id="viewScopePackageModal" class="modal">
+        <div class="modal-content modal-wide">
+            <div class="modal-header">
+                <h3 id="viewScopeTitle">Scope Package Details</h3>
+                <span class="close-btn" id="closeViewScopeModal">&times;</span>
+            </div>
+            <div id="viewScopeContent" class="scope-details">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

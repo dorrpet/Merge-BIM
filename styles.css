@@ -27,6 +27,7 @@ header {
     margin-bottom: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 header h1 {
@@ -37,6 +38,22 @@ header h1 {
 .subtitle {
     font-size: 1.1rem;
     opacity: 0.9;
+}
+
+.header-nav {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.header-nav .btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-nav .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* Main Content */
@@ -59,6 +76,110 @@ main {
 .header-actions h2 {
     font-size: 1.5rem;
     color: #2c3e50;
+}
+
+/* Project Header Details */
+.project-header-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    gap: 20px;
+}
+
+.project-info {
+    flex: 1;
+}
+
+.project-main-info h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.project-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.project-code {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.project-badges {
+    display: flex;
+    gap: 8px;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-ifc {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge-iso {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.badge-type {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-status {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.project-description {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.project-actions-header {
+    display: flex;
+    gap: 10px;
+}
+
+/* Sections */
+.section {
+    margin-bottom: 30px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-header h3 {
+    font-size: 1.4rem;
+    color: #2c3e50;
+}
+
+.section-description {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
 }
 
 /* Buttons */
@@ -145,42 +266,6 @@ main {
     margin-bottom: 5px;
 }
 
-.project-code {
-    font-size: 0.9rem;
-    color: #7f8c8d;
-    font-family: monospace;
-}
-
-.project-badges {
-    display: flex;
-    gap: 8px;
-}
-
-.badge {
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.badge-ifc {
-    background: #e3f2fd;
-    color: #1976d2;
-}
-
-.badge-iso {
-    background: #f3e5f5;
-    color: #7b1fa2;
-}
-
-.project-description {
-    color: #555;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
 .project-meta {
     display: flex;
     justify-content: space-between;
@@ -199,6 +284,105 @@ main {
 .project-actions button {
     padding: 6px 12px;
     font-size: 0.8rem;
+}
+
+/* Scope Packages Grid */
+.scope-packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Scope Package Card */
+.scope-package-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border-left: 4px solid #2ecc71;
+}
+
+.scope-package-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.scope-package-header {
+    margin-bottom: 15px;
+}
+
+.scope-package-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.scope-package-code {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    font-family: monospace;
+    margin-bottom: 10px;
+}
+
+.scope-package-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.scope-package-description {
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.scope-package-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
+.scope-package-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.scope-package-actions button {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+}
+
+.scope-package-entities {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
+.scope-package-entities-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.scope-package-entities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.entity-tag {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
 }
 
 /* Modal */
@@ -228,6 +412,10 @@ main {
     overflow-y: auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     animation: modalSlideIn 0.3s ease;
+}
+
+.modal-wide {
+    max-width: 800px;
 }
 
 @keyframes modalSlideIn {
@@ -322,6 +510,65 @@ form {
     margin-top: 20px;
 }
 
+/* Checkbox Group */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.checkbox-label:hover {
+    background: #f0f0f0;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+}
+
+/* Scope Details */
+.scope-details {
+    padding: 25px;
+}
+
+.scope-details-row {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.scope-details-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.scope-details-label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.scope-details-value {
+    color: #555;
+    line-height: 1.6;
+}
+
 /* Footer */
 footer {
     text-align: center;
@@ -349,7 +596,31 @@ footer {
         margin: 20px;
     }
     
-    .projects-grid {
+    .projects-grid,
+    .scope-packages-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-header-details {
+        flex-direction: column;
+    }
+    
+    .project-actions-header {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .checkbox-group {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
         grid-template-columns: 1fr;
     }
 }
