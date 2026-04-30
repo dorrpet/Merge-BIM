@@ -1,218 +1,200 @@
-/* Base Styles */
+/* ============================================
+   Merge-BIM - Old School Blueprint Theme
+   ISO 19650 & IFC Schema Compliant AEC/BIM App
+   ============================================ */
+
+/* CSS Variables - Blueprint Color Palette */
+:root {
+    /* Primary Colors */
+    --blueprint-paper: #f0f8ff;
+    --blueprint-light: #e6f2ff;
+    --blueprint-grid: #d4e6f1;
+    --blueprint-line: #003366;
+    --blueprint-dark: #001935;
+    --blueprint-text: #000080;
+    
+    /* Accent Colors */
+    --blueprint-red: #dc143c;
+    --blueprint-orange: #ff4500;
+    --blueprint-yellow: #ffd700;
+    --blueprint-green: #2e8b57;
+    
+    /* Typography */
+    --font-primary: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+    --font-heading: 'Courier New', Courier, monospace;
+    
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* Borders */
+    --border-dashed: 2px dashed var(--blueprint-line);
+    --border-dotted: 1px dotted var(--blueprint-line);
+    --border-solid: 1px solid var(--blueprint-line);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0, 51, 102, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 51, 102, 0.15);
+    --shadow-lg: 0 8px 16px rgba(0, 51, 102, 0.2);
+}
+
+/* ============================================
+   Blueprint Background Pattern
+   ============================================ */
+
+body {
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    background-color: var(--blueprint-paper);
+    color: var(--blueprint-text);
+    min-height: 100vh;
+    /* Subtle grid pattern */
+    background-image: 
+        linear-gradient(rgba(0, 51, 102, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 51, 102, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    background-color: #f5f7fa;
-    color: #333;
-}
-
 .app-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: var(--spacing-lg);
 }
 
-/* Header */
+/* ============================================
+   Header - Blueprint Title Block
+   ============================================ */
+
 header {
-    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-    color: #fff;
-    padding: 30px 0;
+    background: linear-gradient(135deg, var(--blueprint-dark) 0%, var(--blueprint-line) 100%);
+    color: var(--blueprint-paper);
+    padding: var(--spacing-xl) var(--spacing-lg);
     text-align: center;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: var(--spacing-lg);
+    border: var(--border-solid);
+    box-shadow: var(--shadow-md);
     position: relative;
+    /* Blueprint paper texture overlay */
+    background-image: 
+        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+    background-size: 15px 15px;
 }
 
 header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+    border-bottom: var(--border-dashed);
+    padding-bottom: var(--spacing-md);
 }
 
 .subtitle {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     opacity: 0.9;
+    font-style: italic;
 }
 
 .header-nav {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
 }
 
 .header-nav .btn-secondary {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(240, 248, 255, 0.2);
+    color: var(--blueprint-paper);
+    border: 1px solid rgba(240, 248, 255, 0.4);
 }
 
 .header-nav .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(240, 248, 255, 0.3);
 }
 
-/* Main Content */
+/* ============================================
+   Main Content Area
+   ============================================ */
+
 main {
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: var(--spacing-lg);
+    background: var(--blueprint-paper);
+    border: var(--border-dashed);
+    box-shadow: var(--shadow-sm);
 }
 
 .header-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: var(--border-dotted);
 }
 
 .header-actions h2 {
-    font-size: 1.5rem;
-    color: #2c3e50;
-}
-
-/* Project Header Details */
-.project-header-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    gap: 20px;
-}
-
-.project-info {
-    flex: 1;
-}
-
-.project-main-info h2 {
+    font-family: var(--font-heading);
     font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
+    color: var(--blueprint-dark);
+    border-bottom: var(--border-dashed);
+    padding-bottom: var(--spacing-xs);
 }
 
-.project-meta-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
-}
+/* ============================================
+   Buttons - Technical Drawing Style
+   ============================================ */
 
-.project-code {
-    font-size: 0.9rem;
-    color: #7f8c8d;
-    font-family: monospace;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 4px 10px;
-    border-radius: 4px;
-}
-
-.project-badges {
-    display: flex;
-    gap: 8px;
-}
-
-.badge {
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.badge-ifc {
-    background: #e3f2fd;
-    color: #1976d2;
-}
-
-.badge-iso {
-    background: #f3e5f5;
-    color: #7b1fa2;
-}
-
-.badge-type {
-    background: #e8f5e9;
-    color: #2e7d32;
-}
-
-.badge-status {
-    background: #fff3e0;
-    color: #e65100;
-}
-
-.project-description {
-    color: #555;
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
-.project-actions-header {
-    display: flex;
-    gap: 10px;
-}
-
-/* Sections */
-.section {
-    margin-bottom: 30px;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.section-header h3 {
-    font-size: 1.4rem;
-    color: #2c3e50;
-}
-
-.section-description {
-    color: #7f8c8d;
-    margin-bottom: 20px;
-    font-size: 0.95rem;
-}
-
-/* Buttons */
 .btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
     border: none;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
+    font-family: var(--font-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    color: white;
+    background: var(--blueprint-line);
+    color: var(--blueprint-paper);
+    border: var(--border-solid);
 }
 
 .btn-primary:hover {
+    background: var(--blueprint-dark);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
-    background: #ecf0f1;
-    color: #2c3e50;
+    background: var(--blueprint-light);
+    color: var(--blueprint-dark);
+    border: var(--border-dashed);
 }
 
 .btn-secondary:hover {
-    background: #bdc3c7;
+    background: var(--blueprint-grid);
+    border: var(--border-solid);
 }
 
 .btn-icon {
@@ -220,172 +202,349 @@ main {
     font-weight: bold;
 }
 
-/* Projects Grid */
+/* ============================================
+   Projects Grid - Blueprint Layout
+   ============================================ */
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 20px;
+    gap: var(--spacing-lg);
 }
 
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 60px 20px;
-    color: #7f8c8d;
-    background: #f9f9f9;
-    border-radius: 8px;
-    border: 2px dashed #bdc3c7;
+    padding: var(--spacing-xl);
+    color: var(--blueprint-line);
+    background: var(--blueprint-light);
+    border: var(--border-dashed);
+    border-radius: 4px;
+    font-style: italic;
 }
 
-/* Project Card */
+/* ============================================
+   Project Card - Technical Drawing Sheet
+   ============================================ */
+
 .project-card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: var(--blueprint-paper);
+    border: var(--border-dashed);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
     transition: all 0.3s ease;
-    border-left: 4px solid #3498db;
+    position: relative;
+    /* Folded corner effect */
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, transparent 50%, var(--blueprint-light) 50%);
+    border-left: var(--border-dotted);
+    border-bottom: var(--border-dotted);
 }
 
 .project-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-lg);
+    border: var(--border-solid);
 }
 
 .project-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: var(--border-dotted);
 }
 
 .project-name {
-    font-size: 1.3rem;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--blueprint-dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+.project-code {
+    font-size: 0.9rem;
+    color: var(--blueprint-line);
+    font-family: var(--font-primary);
+    font-style: italic;
+}
+
+.project-badges {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.badge {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 15px;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: var(--border-dotted);
+}
+
+.badge-ifc {
+    background: var(--blueprint-light);
+    color: var(--blueprint-dark);
+}
+
+.badge-iso {
+    background: var(--blueprint-light);
+    color: var(--blueprint-line);
+}
+
+.badge-type {
+    background: rgba(46, 139, 87, 0.2);
+    color: var(--blueprint-green);
+    border-color: var(--blueprint-green);
+}
+
+.badge-status {
+    background: rgba(220, 20, 60, 0.1);
+    color: var(--blueprint-red);
+    border-color: var(--blueprint-red);
+}
+
+.project-description {
+    color: var(--blueprint-text);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
 .project-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
+    padding-top: var(--spacing-md);
+    border-top: var(--border-dotted);
     font-size: 0.85rem;
-    color: #7f8c8d;
+    color: var(--blueprint-line);
+    font-style: italic;
 }
 
 .project-actions {
     display: flex;
-    gap: 8px;
+    gap: var(--spacing-xs);
 }
 
 .project-actions button {
-    padding: 6px 12px;
+    padding: var(--spacing-xs) var(--spacing-sm);
     font-size: 0.8rem;
 }
 
-/* Scope Packages Grid */
+/* ============================================
+   Project Detail Page
+   ============================================ */
+
+.project-header-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: var(--border-solid);
+    gap: var(--spacing-md);
+}
+
+.project-info {
+    flex: 1;
+}
+
+.project-main-info h2 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--blueprint-dark);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: var(--border-dashed);
+    padding-bottom: var(--spacing-xs);
+}
+
+.project-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.project-code {
+    font-size: 0.9rem;
+    color: var(--blueprint-line);
+    font-family: var(--font-primary);
+    font-style: italic;
+    background: var(--blueprint-light);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+    border: var(--border-dotted);
+}
+
+.project-description {
+    color: var(--blueprint-text);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.project-actions-header {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* ============================================
+   Sections
+   ============================================ */
+
+.section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.section-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--blueprint-dark);
+    border-bottom: var(--border-dashed);
+    padding-bottom: var(--spacing-xs);
+}
+
+.section-description {
+    color: var(--blueprint-line);
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+/* ============================================
+   Scope Packages Grid
+   ============================================ */
+
 .scope-packages-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    gap: var(--spacing-lg);
 }
 
-/* Scope Package Card */
+/* ============================================
+   Scope Package Card
+   ============================================ */
+
 .scope-package-card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: var(--blueprint-paper);
+    border: var(--border-dashed);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
     transition: all 0.3s ease;
-    border-left: 4px solid #2ecc71;
+    border-left: 4px solid var(--blueprint-green);
 }
 
 .scope-package-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-lg);
+    border: var(--border-solid);
+    border-left: 4px solid var(--blueprint-green);
 }
 
 .scope-package-header {
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-md);
 }
 
 .scope-package-name {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 8px;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--blueprint-dark);
+    margin-bottom: var(--spacing-xs);
 }
 
 .scope-package-code {
     font-size: 0.85rem;
-    color: #7f8c8d;
-    font-family: monospace;
-    margin-bottom: 10px;
+    color: var(--blueprint-line);
+    font-family: var(--font-primary);
+    font-style: italic;
+    margin-bottom: var(--spacing-sm);
 }
 
 .scope-package-badges {
     display: flex;
-    gap: 8px;
-    margin-bottom: 15px;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
 }
 
 .scope-package-description {
-    color: #555;
+    color: var(--blueprint-text);
     font-size: 0.9rem;
     line-height: 1.5;
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-md);
 }
 
 .scope-package-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
+    padding-top: var(--spacing-md);
+    border-top: var(--border-dotted);
     font-size: 0.8rem;
-    color: #7f8c8d;
+    color: var(--blueprint-line);
+    font-style: italic;
 }
 
 .scope-package-actions {
     display: flex;
-    gap: 8px;
+    gap: var(--spacing-xs);
 }
 
 .scope-package-actions button {
-    padding: 6px 12px;
+    padding: var(--spacing-xs) var(--spacing-sm);
     font-size: 0.75rem;
 }
 
 .scope-package-entities {
-    margin-top: 10px;
+    margin-top: var(--spacing-sm);
     font-size: 0.8rem;
-    color: #7f8c8d;
+    color: var(--blueprint-line);
 }
 
 .scope-package-entities-title {
     font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 5px;
+    color: var(--blueprint-dark);
+    margin-bottom: var(--spacing-xs);
 }
 
 .scope-package-entities-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: var(--spacing-xs);
 }
 
 .entity-tag {
-    background: #e3f2fd;
-    color: #1976d2;
-    padding: 2px 8px;
+    background: var(--blueprint-light);
+    color: var(--blueprint-dark);
+    padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: 4px;
     font-size: 0.75rem;
+    border: var(--border-dotted);
 }
 
-/* Modal */
+/* ============================================
+   Modal - Blueprint Overlay
+   ============================================ */
+
 .modal {
     display: none;
     position: fixed;
@@ -393,7 +552,7 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 25, 53, 0.7);
     z-index: 1000;
     align-items: center;
     justify-content: center;
@@ -404,14 +563,19 @@ main {
 }
 
 .modal-content {
-    background: #fff;
-    border-radius: 10px;
+    background: var(--blueprint-paper);
+    border: var(--border-solid);
+    border-radius: 0;
     width: 90%;
     max-width: 600px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-lg);
     animation: modalSlideIn 0.3s ease;
+    /* Blueprint paper texture */
+    background-image: 
+        radial-gradient(circle at 1px 1px, rgba(0, 51, 102, 0.05) 1px, transparent 0);
+    background-size: 15px 15px;
 }
 
 .modal-wide {
@@ -433,61 +597,73 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 25px;
-    border-bottom: 1px solid #eee;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: var(--border-solid);
+    background: var(--blueprint-light);
 }
 
 .modal-header h3 {
+    font-family: var(--font-heading);
     font-size: 1.4rem;
-    color: #2c3e50;
+    color: var(--blueprint-dark);
 }
 
 .close-btn {
     font-size: 1.8rem;
-    color: #7f8c8d;
+    color: var(--blueprint-line);
     cursor: pointer;
     line-height: 1;
     transition: color 0.3s;
 }
 
 .close-btn:hover {
-    color: #e74c3c;
+    color: var(--blueprint-red);
 }
 
-/* Form Styles */
+/* ============================================
+   Form Styles - Technical Form
+   ============================================ */
+
 form {
-    padding: 25px;
+    padding: var(--spacing-lg);
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-lg);
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-xs);
     font-weight: 500;
-    color: #2c3e50;
+    color: var(--blueprint-dark);
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: var(--spacing-sm);
+    border: var(--border-dashed);
+    border-radius: 0;
     font-size: 1rem;
     transition: border-color 0.3s;
-    font-family: inherit;
+    font-family: var(--font-primary);
+    background: var(--blueprint-paper);
+    color: var(--blueprint-dark);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    border-color: var(--blueprint-line);
+    border-style: solid;
+    box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.1);
 }
 
 .form-group textarea {
@@ -498,55 +674,66 @@ form {
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: var(--spacing-lg);
 }
 
 .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    margin-top: 20px;
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-lg);
+    border-top: var(--border-solid);
+    margin-top: var(--spacing-lg);
+    background: var(--blueprint-light);
+    padding: var(--spacing-md) var(--spacing-lg);
 }
 
-/* Checkbox Group */
+/* ============================================
+   Checkbox Group - Technical Selection
+   ============================================ */
+
 .checkbox-group {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
+    gap: var(--spacing-sm);
 }
 
 .checkbox-label {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background: #f9f9f9;
-    border-radius: 6px;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--blueprint-light);
+    border: var(--border-dotted);
     cursor: pointer;
     transition: all 0.3s;
     font-size: 0.9rem;
+    font-family: var(--font-primary);
 }
 
 .checkbox-label:hover {
-    background: #f0f0f0;
+    background: var(--blueprint-grid);
+    border: var(--border-dashed);
 }
 
 .checkbox-label input[type="checkbox"] {
     width: auto;
     cursor: pointer;
+    accent-color: var(--blueprint-line);
 }
 
-/* Scope Details */
+/* ============================================
+   Scope Details
+   ============================================ */
+
 .scope-details {
-    padding: 25px;
+    padding: var(--spacing-lg);
 }
 
 .scope-details-row {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: var(--border-dotted);
 }
 
 .scope-details-row:last-child {
@@ -557,34 +744,43 @@ form {
 
 .scope-details-label {
     font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 8px;
+    color: var(--blueprint-dark);
+    margin-bottom: var(--spacing-xs);
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    font-family: var(--font-heading);
 }
 
 .scope-details-value {
-    color: #555;
+    color: var(--blueprint-text);
     line-height: 1.6;
 }
 
-/* Footer */
+/* ============================================
+   Footer - Blueprint Footer
+   ============================================ */
+
 footer {
     text-align: center;
-    padding: 20px 0;
-    margin-top: 30px;
-    background: #2c3e50;
-    color: #ecf0f1;
-    border-radius: 10px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+    background: var(--blueprint-dark);
+    color: var(--blueprint-paper);
+    border-top: var(--border-solid);
+    font-size: 0.9rem;
+    font-family: var(--font-primary);
 }
 
-/* Responsive */
+/* ============================================
+   Responsive Design
+   ============================================ */
+
 @media (max-width: 768px) {
     .header-actions {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        gap: var(--spacing-md);
     }
     
     .form-row {
@@ -593,7 +789,7 @@ footer {
     
     .modal-content {
         width: 95%;
-        margin: 20px;
+        margin: var(--spacing-md);
     }
     
     .projects-grid,
@@ -622,5 +818,37 @@ footer {
     
     .form-row {
         grid-template-columns: 1fr;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .project-name,
+    .scope-package-name {
+        font-size: 1.2rem;
+    }
+}
+
+/* ============================================
+   Print Styles - For Actual Blueprints
+   ============================================ */
+
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .btn,
+    .modal,
+    .header-nav {
+        display: none !important;
+    }
+    
+    .project-card,
+    .scope-package-card {
+        border: 1px solid black;
+        page-break-inside: avoid;
     }
 }
