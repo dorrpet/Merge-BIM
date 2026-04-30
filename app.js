@@ -17,18 +17,19 @@ function loadProjectsFromStorage() {
     
     // Try sessionStorage first
     stored = sessionStorage.getItem(STORAGE_KEY);
-    console.log('sessionStorage:', stored ? 'has data' : 'empty');
+    console.log('sessionStorage:', stored ? 'has data (' + stored.length + ' chars)' : 'empty');
     
     // If sessionStorage is empty, try localStorage
     if (!stored) {
         stored = localStorage.getItem(STORAGE_KEY);
-        console.log('localStorage:', stored ? 'has data' : 'empty');
+        console.log('localStorage:', stored ? 'has data (' + stored.length + ' chars)' : 'empty');
     }
     
     if (stored) {
         try {
             projects = JSON.parse(stored);
             console.log('Loaded projects:', projects.length);
+            projects.forEach(p => console.log('  -', p.name, p.id));
             
             // Save to both storages for redundancy
             sessionStorage.setItem(STORAGE_KEY, stored);
@@ -81,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Load projects from storage
     loadProjectsFromStorage();
+    console.log('Projects loaded from storage:', projects);
     
     // Determine which page we're on
     if (projectNameEl) {
@@ -98,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     } else {
         currentPage = 'projects';
+        console.log('Rendering projects on index page');
         renderProjects();
     }
     
@@ -275,6 +278,14 @@ function loadProject(projectId) {
 
 // Render projects to the UI
 function renderProjects() {
+    console.log('renderProjects called, projectsContainer:', projectsContainer);
+    console.log('Projects to render:', projects.length);
+    
+    if (!projectsContainer) {
+        console.error('projectsContainer is null! Cannot render projects.');
+        return;
+    }
+    
     if (projects.length === 0) {
         projectsContainer.innerHTML = `
             <div class="empty-state">
