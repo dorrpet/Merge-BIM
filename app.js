@@ -95,23 +95,30 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Projects loaded from storage:', projects);
         
         // Determine which page we're on
-        if (projectNameEl) {
+        const isProjectPage = projectNameEl !== null;
+        const isIndexPage = projectsContainer !== null;
+        
+        if (isProjectPage) {
             currentPage = 'project';
             const urlParams = new URLSearchParams(window.location.search);
             currentProjectId = urlParams.get('projectId');
             if (currentProjectId) {
                 loadProject(currentProjectId);
             } else {
-                console.error('No projectId in URL, redirecting to index');
-                // Only redirect once, don't create a loop
-                if (window.location.pathname.includes('project.html')) {
+                console.error('No projectId in URL on project page, redirecting to index');
+                // Prevent redirect loop - only redirect if we're not already going to index
+                if (window.location.pathname.includes('project.html') && 
+                    !window.location.pathname.includes('index.html')) {
+                    console.log('Redirecting to index.html');
                     window.location.href = 'index.html';
                 }
             }
-        } else {
+        } else if (isIndexPage) {
             currentPage = 'projects';
-            console.log('Rendering projects on index page');
+            console.log('On index page, rendering projects');
             renderProjects();
+        } else {
+            console.error('Unknown page type - neither project nor index page elements found');
         }
         
         setupEventListeners();
